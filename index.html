@@ -1,29 +1,36 @@
+---
+layout: default
+title: "The high quality, completely customizable, performant and 100% free blog template for Jekyll"
+description: "Chalk uses all the best tools and merges them into one premium blogging theme."
+---
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Hank Quinlan, Horrible Cop</title>
-	</head>
-	<body>
-		<nav>
-    		<ul>
-        		<li><a href="/">Home</a></li>
-	        	<li><a href="/about">About</a></li>
-        		<li><a href="/cv">CV</a></li>
-        		<li><a href="/blog">Blog</a></li>
-    		</ul>
-		</nav>
-		<div class="container">
-    		<div class="blurb">
-        		<h1>Hi there, I'm Hank Quinlan!</h1>
-				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
-    		</div><!-- /.blurb -->
-		</div><!-- /.container -->
-		<footer>
-    		<ul>
-        		<li><a href="mailto:hankquinlanhub@gmail.com">email</a></li>
-        		<li><a href="https://github.com/hankquinlan">github.com/hankquinlan</a></li>
-			</ul>
-		</footer>
-	</body>
-</html>
+<ul class="article-list">
+  {% for post in paginator.posts %}
+    <li class="article-list-item {% if site.scrollappear_enabled %}scrollappear{% endif %}">
+      <a href="{{ post.url | relative_url }}" title="{{ post.title }}">
+        <h5>
+          {{ post.title }}
+          {% include svg-icon.html icon="arrow-right" %}
+        </h5>
+      </a>
+      <p>
+        {% if post.description %}
+          {{ post.description }}  
+        {% else %}
+          {{ post.excerpt }}
+        {% endif %}
+      </p>
+      {% include article/info-footer.html post=post %}
+    </li>
+  {% endfor %}
+  {% if paginator.total_pages > 1 %}
+    <li class="article-pagination {% if site.settings.scrollappear_enabled %}scrollappear{% endif %}">
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path }}" class="article-pagination-left">{% include svg-icon.html icon="arrow-left" %} Older posts</a>
+      {% endif %}
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path }}" class="article-pagination-right">Newer posts {% include svg-icon.html icon="arrow-right" %}</a>
+      {% endif %}
+    </li>
+  {% endif %}
+</ul>
